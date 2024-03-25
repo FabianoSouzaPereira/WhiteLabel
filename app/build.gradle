@@ -1,0 +1,87 @@
+plugins {
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.jetbrainsKotlinAndroid)
+}
+
+android {
+    signingConfigs {
+        whitelabelpro {
+            storeFile file('/home/fsp/Documents/whitelabelapp.p12')
+            keyPassword '8pQa4R4x)kBM'
+            storePassword 'bFi73(53£Yjo'
+            keyAlias 'whitelabelapp'
+        }
+        whitelabelfree {
+            storeFile file('/home/fsp/Documents/whitelabelapp.p12')
+            storePassword 'bFi73(53£Yjo'
+            keyAlias 'whitelabelapp'
+            keyPassword '8pQa4R4x)kBM'
+        }
+    }
+    namespace 'com.fabianodev.whitelabel'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.fabianodev.whitelabel"
+        minSdk 28
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            versionNameSuffix "-debug"
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    viewBinding {
+        enabled = true
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+        freeCompilerArgs += [
+                "-Xjvm-default=all",
+        ]
+    }
+   flavorDimensions "default"
+    productFlavors {
+        whitelabelpro {
+            dimension "default"
+            applicationId 'com.fabianodev.whitelabel-pro'
+            signingConfig signingConfigs.whitelabelpro
+        }
+        whitelabelfree {
+            dimension "default"
+            applicationId 'com.fabianodev.whitelabel-free'
+            signingConfig signingConfigs.whitelabelfree
+        }
+    }
+}
+
+dependencies {
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.androidx.activity
+    implementation libs.androidx.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+}
